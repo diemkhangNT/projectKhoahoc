@@ -5,6 +5,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.spec.ECParameterSpec;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GiaoDien implements ActionListener {
@@ -164,7 +167,6 @@ public class GiaoDien implements ActionListener {
         frame.setVisible(true);
     }
     int aa,bb;
-
     public void input(){
         aa = Integer.parseInt(a.getText());
         bb = Integer.parseInt(b.getText());
@@ -174,18 +176,22 @@ public class GiaoDien implements ActionListener {
                 String s=null;
                 System.out.println(s.length());
             }
-            x = (float) -(bb/aa);
+            if(aa<0||bb<0){
+                int a[]=new int[5];
+                a[10]=50;
+            }
             if(bb==0){
                 Integer.parseInt("Acb");
-            }else {
-                System.out.println("Done!");
             }
+            x = (float) -(bb/aa);
         }catch (ArithmeticException e){
             JOptionPane.showMessageDialog(frame,"a phải khác 0, mời nhập lại!","Error!", JOptionPane.INFORMATION_MESSAGE);
         }catch (NumberFormatException e){
             JOptionPane.showMessageDialog(frame,"b phải khác 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
         }catch (NullPointerException e){
-            JOptionPane.showMessageDialog(frame,"b và a phải khác 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,"b và a phải lớn hơn 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(frame,"b và a phải lớn hơn 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -203,18 +209,19 @@ public class GiaoDien implements ActionListener {
         if(e.getSource()==radioButton2){
             input();
             int max = 1;
-            System.out.print("Cac uoc chung: ");
+            ArrayList<Integer> list = new ArrayList<Integer>();
             for(int i = 1; i <= aa && i <= bb; i++)
             {
                 if(aa%i==0 && bb%i==0){
-                    System.out.print(i+" ");
-                    max = i;
+                    list.add(i);
+                    max= i;
                 }
             }
             x = max;
+            labelkq.setText("Ước chung của "+aa+" và "+bb+": "+list.toString());
             label7.setText("Ước chung lớn nhất là: "+(int)x);
             label7.setVisible(false);
-            labelkq.setVisible(false);
+            labelkq.setVisible(true);
         }
         if(e.getSource()==radioButton3){
             input();
