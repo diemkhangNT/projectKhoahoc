@@ -17,6 +17,7 @@ public class GiaoDien implements ActionListener {
     JTextField a,b;
     JPanel panel1,panel2,panel3,panel4,panel5,panel6,panel7,panel8;
     JRadioButton radioButton1, radioButton2,radioButton3;
+    ButtonGroup buttonGroup = new ButtonGroup();
     public static void main(String[] args) {
         GiaoDien gd = new GiaoDien();
     }
@@ -115,7 +116,7 @@ public class GiaoDien implements ActionListener {
         radioButton3.setBackground(new Color(168, 230, 168));
         radioButton3.addActionListener(this);
 
-        ButtonGroup buttonGroup = new ButtonGroup();
+
         buttonGroup.add(radioButton1);
         buttonGroup.add(radioButton2);
         buttonGroup.add(radioButton3);
@@ -168,30 +169,34 @@ public class GiaoDien implements ActionListener {
     }
     int aa,bb;
     public void input(){
-        aa = Integer.parseInt(a.getText());
-        bb = Integer.parseInt(b.getText());
         float x;
         try{
+// (if có) Lỗi ép kiểu NumberFormatException (Giá trị đưa vào không đúng với kiểu dữ liệu)
+            aa = Integer.parseInt(a.getText());
+            bb = Integer.parseInt(b.getText());
             if(aa==0&&bb==0){
                 String s=null;
                 System.out.println(s.length());
+                // Lỗi NullPointerException (Không tìm thấy giá trị yêu cầu)
             }
             if(aa<0||bb<0){
-                int a[]=new int[5];
-                a[10]=50;
+                int arr[]=new int[5];
+                arr[10]=50; // Lỗi ArrayIndexOutOfBoundsException (Vượt quá chiều dài của mảng)
             }
-            if(bb==0){
-                Integer.parseInt("Acb");
-            }
-            x = (float) -(bb/aa);
+            // Nếu aa=0 -> ArithmeticException (Lỗi phép toán)
+            x = (float) (bb/aa);
+            // Nếu bb=0 -> ArithmeticException (Lỗi phép toán)
+            x = (float) (aa/bb);
         }catch (ArithmeticException e){
-            JOptionPane.showMessageDialog(frame,"a phải khác 0, mời nhập lại!","Error!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,"a và b phải KHÁC 0, mời nhập lại!","Error!", JOptionPane.INFORMATION_MESSAGE);
         }catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(frame,"b phải khác 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,"a và b phải là SỐ TỰ NHIÊN LỚN HƠN 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
         }catch (NullPointerException e){
-            JOptionPane.showMessageDialog(frame,"b và a phải lớn hơn 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,"a và b phải LỚN HƠN 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
+        }catch (ArrayIndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(frame,"a và b phải LỚN HƠN 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
         }catch (Exception e){
-            JOptionPane.showMessageDialog(frame,"b và a phải lớn hơn 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,"a và b phải là SỐ TỰ NHIÊN LỚN HƠN 0, mời nhập lại!","Error!",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -230,17 +235,22 @@ public class GiaoDien implements ActionListener {
                 if(aa%i==0 && bb%i==0)
                     max = i;
             }
-            x= (aa*bb)/max;
+            x= (float) (aa*bb)/max;
             label7.setText("Bội chung nhỏ nhất là: "+(int)x);
             label7.setVisible(false);
             labelkq.setVisible(false);
         }
         if(e.getSource()==buttonOk){
+            input();
             label7.setVisible(true);
         }else if(e.getSource()==buttonRS){
+            labelkq.setText(" ");
+            label7.setText("Hiển thị kết quả");
+            labelkq.setVisible(true);
+            label7.setVisible(true);
             a.setText("0");
             b.setText("0");
-            input();
+            buttonGroup.clearSelection();
         }else if(e.getSource()==buttonExit){
             System.exit(0);
         }
